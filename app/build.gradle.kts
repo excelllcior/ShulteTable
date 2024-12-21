@@ -51,6 +51,7 @@ android {
 
 dependencies {
     implementation(libs.firebase.crashlytics.buildtools)
+    implementation(libs.androidx.graphics.shapes.android)
     val composeBom = platform("androidx.compose:compose-bom:2023.10.01")
     implementation(composeBom)
     androidTestImplementation(composeBom)

@@ -80,8 +80,7 @@ fun MainContent() {
                 }
 
                 composable("exercises") {
-                    //ExercisesScreen(navController)
-                    ExerciseScreen(navController)
+                    ExercisesScreen(navController)
                 }
 
                 composable("stats") {

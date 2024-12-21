@@ -1,7 +1,9 @@
 package com.example.shultetable.ui.screens
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -200,10 +202,17 @@ fun ExerciseTypeCard(item: ExerciseCardData = ExerciseCardData(0, "Вниман�
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             Row(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(item.title)
-                Text("Новичок")
+                Box(
+                    modifier = Modifier
+                        .border(BorderStroke(1.dp, Color.Black), RoundedCornerShape(16.dp)) // Установите цвет и ширину границы, а также скругление
+                        .padding(vertical =  6.dp, horizontal = 8.dp) // Добавьте отступы внутри границы
+                ) {
+                    Text("Новичок")
+                }
             }
             Column {
                 Row(
