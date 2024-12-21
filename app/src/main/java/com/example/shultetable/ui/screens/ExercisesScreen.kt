@@ -1,14 +1,32 @@
 package com.example.shultetable.ui.screens
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.shultetable.R
+import com.example.shultetable.ui.theme.CharlestonGreen
+import com.example.shultetable.ui.theme.CharlestonGreen30
+import com.example.shultetable.ui.theme.CharlestonGreen60
+import com.example.shultetable.ui.theme.CharlestonGreenTransparent
+import com.example.shultetable.ui.theme.Crayola
+import com.example.shultetable.ui.theme.Cyan
+import com.example.shultetable.ui.theme.Mindaro
+import com.example.shultetable.ui.theme.Purple
+import com.example.shultetable.ui.theme.jostFamily
 
 @Composable
 fun ExercisesScreen(navController: NavController) {
@@ -26,25 +44,33 @@ fun ExercisesScreen(navController: NavController) {
 
         GameCard(
             title = "Таблица Шульте",
-            description = "Найдите числа по порядку от 1 до 25. Тренирует периферическое зрение и внимательность.",
+            category = "Внимательность",
+            color = Mindaro,
+            bestScore = 1280,
             onClick = { navController.navigate("shulteTable") }
         )
 
         GameCard(
             title = "Запомни число",
-            description = "Запоминайте и воспроизводите числа возрастающей длины. Тренирует кратковременную память.",
+            category = "Память",
+            color = Purple,
+            bestScore = 2080,
             onClick = { navController.navigate("numberMemory") }
         )
 
         GameCard(
             title = "Цветовые пары",
-            description = "Найдите все парные карточки одинакового цвета. Тренирует память и концентрацию.",
+            category = "Концентрация",
+            color = Crayola,
+            bestScore = 2640,
             onClick = { navController.navigate("colorPairs") }
         )
 
         GameCard(
             title = "Математика",
-            description = "Реши простейшие математические задачи. Тренирует логическое мышление.",
+            category = "Логика",
+            color = Cyan,
+            bestScore = 3700,
             onClick = { navController.navigate("mathGame") }
         )
     }
@@ -54,29 +80,72 @@ fun ExercisesScreen(navController: NavController) {
 @Composable
 fun GameCard(
     title: String,
-    description: String,
+    category: String,
+    color: Color = Mindaro,
+    bestScore: Int,
     onClick: () -> Unit
 ) {
-    Card(
-        modifier = Modifier
+    Card(onClick = onClick) {
+        Column(modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp),
-        onClick = onClick
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
+            .height(144.dp)
+            .clip(RoundedCornerShape(16.dp))
+            .background(color)
+            .padding(16.dp),
+            verticalArrangement = Arrangement.SpaceBetween
         ) {
-            Text(
-                text = title,
-                style = MaterialTheme.typography.titleLarge,
-                modifier = Modifier.padding(bottom = 8.dp)
-            )
-            Text(
-                text = description,
-                style = MaterialTheme.typography.bodyMedium
-            )
+            Row(modifier = Modifier
+                .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Column() {
+                    Text(
+                        text = title,
+                        fontSize = 24.sp,
+                        fontFamily = jostFamily,
+                        fontWeight = FontWeight.Normal,
+                        color = CharlestonGreen
+                    )
+                    Text(
+                        text = category,
+                        fontSize = 16.sp,
+                        fontFamily = jostFamily,
+                        fontWeight = FontWeight.Normal,
+                        color = CharlestonGreenTransparent
+                    )
+                }
+                IconButton(onClick = { /*TODO*/ }) {
+                    Icon(
+                        Icons.Filled.Favorite,
+                        modifier = Modifier.size(32.dp),
+                        contentDescription = "Like Button",
+                        tint = CharlestonGreen
+                    )
+                }
+            }
+            Row(modifier = Modifier
+                .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Максимальный счёт — $bestScore",
+                        fontSize = 16.sp,
+                        fontFamily = jostFamily,
+                        fontWeight = FontWeight.Normal,
+                        color = CharlestonGreen
+                    )
+                    Spacer(modifier = Modifier.width(2.dp))
+                    Icon(
+                        painter = painterResource(R.drawable.star),
+                        modifier = Modifier.size(14.dp),
+                        contentDescription = "Like Button",
+                        tint = CharlestonGreen
+                    )
+                }
+            }
         }
     }
 }
