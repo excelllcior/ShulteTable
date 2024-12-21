@@ -1,8 +1,10 @@
 package com.example.shultetable.ui.screens
 
+import android.text.style.BackgroundColorSpan
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -16,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.motionEventSpy
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -23,74 +26,65 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.shultetable.R
 import com.example.shultetable.ui.theme.CharlestonGreen
+import com.example.shultetable.ui.theme.CharlestonGreen30
+import com.example.shultetable.ui.theme.CharlestonGreen60
 import com.example.shultetable.ui.theme.GoldenRod
+import com.example.shultetable.ui.theme.Mindaro
 import com.example.shultetable.ui.theme.White
 import com.example.shultetable.ui.theme.jostFamily
 
-@Preview
-@Composable
-fun HomeScreenPreview() {
-    HomeScreen({ })
-}
-
 @Composable
 fun HomeScreen(
-    onStartTraining: () -> Unit
-//    onSettingsClick: () -> Unit
+    navController: NavController,
+    onStartTraining: () -> Unit,
+    onNavigateToTrainingPlan: () -> Unit
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(White)
-            .padding(16.dp),
+            .padding(horizontal = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {
-        Section(
-            title = "Для вас"
-        ) {
-            DailyWorkout(
-                onStartClick = onStartTraining,
-                onSettingsClick = { },
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            CalendarCard(
-
-            )
+        LazyColumn {
+            item {
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    "Главная",
+                    fontSize = 32.sp,
+                    fontFamily = jostFamily,
+                    fontWeight = FontWeight.Medium,
+                    color = CharlestonGreen
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                Section(
+                    title = "Для вас"
+                ) {
+                    DailyWorkout(
+                        onStartClick = onStartTraining,
+                        onSettingsClick = onNavigateToTrainingPlan,
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                    CalendarCard()
+                }
+                Spacer(modifier = Modifier.height(32.dp))
+                Section(
+                    title = "Игра дня"
+                ) {
+                    GameCard(
+                        title = "Таблица Шульте",
+                        category = "Внимательность",
+                        color = Mindaro,
+                        bestScore = 1280,
+                        onClick = { navController.navigate("shulteTable") }
+                    )
+                }
+            }
         }
-        Text(
-            text = "Добро пожаловать!",
-            style = MaterialTheme.typography.headlineMedium,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.padding(bottom = 16.dp)
-        )
-        
-        Text(
-            text = "Тренируйте свой мозг с помощью увлекательных упражнений",
-            style = MaterialTheme.typography.bodyLarge,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.padding(bottom = 32.dp)
-        )
-
-        Button(
-            onClick = onStartTraining,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 32.dp)
-        ) {
-            Text("Начать тренировку")
-        }
-
-        Spacer(modifier = Modifier.height(16.dp))
-        
-        Text(
-            text = "Перейдите в раздел 'Игры', чтобы выбрать отдельное упражнение",
-            style = MaterialTheme.typography.bodyMedium,
-            textAlign = TextAlign.Center,
-            color = MaterialTheme.colorScheme.primary
-        )
     }
 }
 
@@ -278,79 +272,142 @@ fun CalendarCard(
                 )
             }
         }
+        Spacer(modifier = Modifier.height(16.dp))
         Row(modifier = Modifier
             .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Column(
-                modifier = Modifier
-                    .wrapContentSize(),
-                horizontalAlignment = Alignment.CenterHorizontally
+            CalendarItem(
+                "Пн",
+                16,
+                White,
+                CharlestonGreen,
+                CharlestonGreen,
+            )
+            CalendarItem(
+                "Вт",
+                17,
+                White,
+                CharlestonGreen,
+                CharlestonGreen,
+            )
+            CalendarItem(
+                "Ср",
+                18,
+                White,
+                CharlestonGreen,
+                CharlestonGreen,
+            )
+            CalendarItem(
+                "Чт",
+                19,
+                White,
+                CharlestonGreen,
+                CharlestonGreen,
+            )
+            CalendarItem(
+                "Пт",
+                20,
+                White,
+                CharlestonGreen,
+                CharlestonGreen,
+            )
+            CalendarItem(
+                "Сб",
+                21,
+                CharlestonGreen,
+                White,
+                CharlestonGreen60
+            )
+            CalendarItem(
+                "Вс",
+                22,
+                White,
+                CharlestonGreen,
+                White
+            )
+        }
+    }
+}
+
+@Composable
+fun CalendarItem(
+    dayName: String,
+    number: Int,
+    backgroundColor: Color,
+    numberColor: Color,
+    dotsColor: Color
+) {
+    Column(
+        modifier = Modifier.wrapContentSize(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = dayName,
+            fontSize = 16.sp,
+            fontFamily = jostFamily,
+            fontWeight = FontWeight.Medium,
+            color = CharlestonGreen
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        Column(
+            modifier = Modifier
+                .wrapContentWidth()
+                .wrapContentHeight()
+                .clip(RoundedCornerShape(8.dp))
+                .background(backgroundColor)
+                .padding(9.dp)
+        ) {
+            Text(
+                text = "$number",
+                fontSize = 16.sp,
+                fontFamily = jostFamily,
+                fontWeight = FontWeight.Medium,
+                color = numberColor
+            )
+            Spacer(modifier = Modifier.height(10.dp))
+            Row(
+                modifier = Modifier.width(20.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    text = "Пн",
-                    fontSize = 16.sp,
-                    fontFamily = jostFamily,
-                    fontWeight = FontWeight.Medium,
-                    color = CharlestonGreen
+                Box(modifier = Modifier
+                    .size(4.dp)
+                    .clip(CircleShape)
+                    .background(dotsColor)
                 )
-                Spacer(modifier = Modifier.height(8.dp))
-                Column(
-                    modifier = Modifier
-                        .width(100.dp)
-                        .background(CharlestonGreen)
-                ) {
-                    Text(
-                        text = "Пн",
-                        fontSize = 16.sp,
-                        fontFamily = jostFamily,
-                        fontWeight = FontWeight.Medium,
-                        color = White
-                    )
-                    Row(
-                        modifier
-                            .fillMaxWidth()
-                            .wrapContentHeight(),
-                    ) {
-                        Box(modifier = Modifier
-                            .size(4.dp)
-                            .clip(CircleShape)
-                            .background(White)
-                        )
-                        Box(modifier = Modifier
-                            .size(4.dp)
-                            .clip(CircleShape)
-                            .background(White)
-                        )
-                        Box(modifier = Modifier
-                            .size(4.dp)
-                            .clip(CircleShape)
-                            .background(White)
-                        )
-                    }
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Row(
-                        modifier
-                            .fillMaxWidth()
-                            .wrapContentHeight(),
-                    ) {
-                        Box(modifier = Modifier
-                            .size(4.dp)
-                            .clip(CircleShape)
-                            .background(White)
-                        )
-                        Box(modifier = Modifier
-                            .size(4.dp)
-                            .clip(CircleShape)
-                            .background(White)
-                        )
-                        Box(modifier = Modifier
-                            .size(4.dp)
-                            .clip(CircleShape)
-                            .background(White)
-                        )
-                    }
-                }
+                Box(modifier = Modifier
+                    .size(4.dp)
+                    .clip(CircleShape)
+                    .background(dotsColor)
+                )
+                Box(modifier = Modifier
+                    .size(4.dp)
+                    .clip(CircleShape)
+                    .background(dotsColor)
+                )
+            }
+            Spacer(modifier = Modifier.height(8.dp))
+            Row(
+                modifier = Modifier.width(20.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Box(modifier = Modifier
+                    .size(4.dp)
+                    .clip(CircleShape)
+                    .background(dotsColor)
+                )
+                Box(modifier = Modifier
+                    .size(4.dp)
+                    .clip(CircleShape)
+                    .background(dotsColor)
+                )
+                Box(modifier = Modifier
+                    .size(4.dp)
+                    .clip(CircleShape)
+                    .background(dotsColor)
+                )
             }
         }
     }

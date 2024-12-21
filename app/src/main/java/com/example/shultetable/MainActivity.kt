@@ -62,6 +62,7 @@ fun MainContent() {
             NavHost(navController = navController, startDestination = "main") {
                 composable("main") {
                     HomeScreen(
+                        navController = navController,
                         onStartTraining = {
                             trainingViewModel.startTraining()
                             when (trainingViewModel.currentExercise) {
@@ -71,6 +72,9 @@ fun MainContent() {
                                 Exercise.MATH_GAME -> navController.navigate("mathGame?training=true")
                                 null -> {}
                             }
+                        },
+                        onNavigateToTrainingPlan = {
+                            navController.navigate("trainingPlan")
                         }
                     )
                 }

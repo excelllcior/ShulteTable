@@ -2,6 +2,7 @@ package com.example.shultetable.ui.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
@@ -32,47 +33,99 @@ import com.example.shultetable.ui.theme.jostFamily
 fun ExercisesScreen(navController: NavController) {
     Column(
         modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
+            .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Выберите игру",
-            style = MaterialTheme.typography.headlineMedium,
-            modifier = Modifier.padding(vertical = 32.dp)
+            "Упражнения",
+            fontSize = 32.sp,
+            fontFamily = jostFamily,
+            fontWeight = FontWeight.Medium,
+            color = CharlestonGreen
         )
-
-        GameCard(
-            title = "Таблица Шульте",
-            category = "Внимательность",
-            color = Mindaro,
-            bestScore = 1280,
-            onClick = { navController.navigate("shulteTable") }
-        )
-
-        GameCard(
-            title = "Запомни число",
-            category = "Память",
-            color = Purple,
-            bestScore = 2080,
-            onClick = { navController.navigate("numberMemory") }
-        )
-
-        GameCard(
-            title = "Цветовые пары",
-            category = "Концентрация",
-            color = Crayola,
-            bestScore = 2640,
-            onClick = { navController.navigate("colorPairs") }
-        )
-
-        GameCard(
-            title = "Математика",
-            category = "Логика",
-            color = Cyan,
-            bestScore = 3700,
-            onClick = { navController.navigate("mathGame") }
-        )
+        Spacer(modifier = Modifier.height(32.dp))
+        Section(
+            title = "Мне нравится"
+        ) {
+            LazyRow {
+                item {
+                    GameCard(
+                        title = "Таблица Шульте",
+                        category = "Внимательность",
+                        color = Mindaro,
+                        bestScore = 1280,
+                        onClick = { navController.navigate("shulteTable") }
+                    )
+                    Spacer(Modifier.width(16.dp))
+                }
+                item {
+                    GameCard(
+                        title = "Запомни число",
+                        category = "Память",
+                        color = Purple,
+                        bestScore = 2080,
+                        onClick = { navController.navigate("numberMemory") }
+                    )
+                    Spacer(Modifier.width(16.dp))
+                }
+                item {
+                    GameCard(
+                        title = "Цветовые пары",
+                        category = "Концентрация",
+                        color = Crayola,
+                        bestScore = 2640,
+                        onClick = { navController.navigate("colorPairs") }
+                    )
+                    Spacer(Modifier.width(16.dp))
+                }
+                item {
+                    GameCard(
+                        title = "Математика",
+                        category = "Логика",
+                        color = Cyan,
+                        bestScore = 3700,
+                        onClick = { navController.navigate("mathGame") }
+                    )
+                    Spacer(Modifier.width(16.dp))
+                }
+            }
+        }
+        Spacer(modifier = Modifier.height(32.dp))
+        Section(
+            title = "Мне нравится"
+        ) {
+            LazyRow {
+                item {
+                    GameCard(
+                        title = "Математика",
+                        category = "Логика",
+                        color = Cyan,
+                        bestScore = 3700,
+                        onClick = { navController.navigate("mathGame") }
+                    )
+                    Spacer(Modifier.width(16.dp))
+                }
+                item {
+                    GameCard(
+                        title = "Цветовые пары",
+                        category = "Концентрация",
+                        color = Crayola,
+                        bestScore = 2640,
+                        onClick = { navController.navigate("colorPairs") }
+                    )
+                    Spacer(Modifier.width(16.dp))
+                }
+                item {
+                    GameCard(
+                        title = "Таблица Шульте",
+                        category = "Внимательность",
+                        color = Mindaro,
+                        bestScore = 1280,
+                        onClick = { navController.navigate("shulteTable") }
+                    )
+                }
+            }
+        }
     }
 }
 
