@@ -1,20 +1,23 @@
 package com.example.shultetable.ui.components
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material3.*
+import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.example.shultetable.R
 
-sealed class BottomNavItem(val route: String, val icon: ImageVector, val label: String) {
-    object Home : BottomNavItem("main", Icons.Default.Home, "Главная")
-    object Exercises : BottomNavItem("exercises", Icons.Default.FitnessCenter, "Игры")
-    object Stats : BottomNavItem("stats", Icons.Default.BarChart, "Статистика")
-    object Character : BottomNavItem("character", Icons.Default.Person, "Персонаж")
-    object Profile : BottomNavItem("profile", Icons.Default.AccountCircle, "Профиль")
+
+sealed class BottomNavItem(val route: String, val icon: Int, val label: String) {
+    data object Home : BottomNavItem("main", R.drawable.home, "Главная")
+    data object Exercises : BottomNavItem("exercises", R.drawable.graduation_cap, "Упражнения")
+    data object Stats : BottomNavItem("stats", R.drawable.bar_chart_square, "Статистика")
+    data object Character : BottomNavItem("character", R.drawable.gamepad, "Персонаж")
+    object Profile : BottomNavItem("profile", R.drawable.user_profile, "Профиль")
 }
 
 @Composable
@@ -33,11 +36,11 @@ fun BottomNavigationBar(navController: NavController) {
 
         items.forEach { item ->
             NavigationBarItem(
-                icon = { Icon(item.icon, contentDescription = item.label) },
+                icon = { Icon(painter = painterResource(item.icon), contentDescription = item.label) },
                 label = { 
                     Text(
                         text = item.label,
-                        fontSize = 10.sp
+                        fontSize = 12.sp
                     ) 
                 },
                 selected = currentRoute == item.route,

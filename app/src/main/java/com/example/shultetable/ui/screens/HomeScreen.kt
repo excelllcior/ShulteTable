@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -42,9 +43,10 @@ fun HomeScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .background(White)
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Top
     ) {
         Section(
             title = "Для вас"
@@ -54,7 +56,9 @@ fun HomeScreen(
                 onSettingsClick = { },
             )
             Spacer(modifier = Modifier.height(16.dp))
+            CalendarCard(
 
+            )
         }
         Text(
             text = "Добро пожаловать!",
@@ -136,19 +140,19 @@ fun DailyWorkout(
         Row(modifier = Modifier
             .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.Top
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
                 text = "Ежедневная тренировка",
                 fontSize = 24.sp,
                 fontFamily = jostFamily,
-                fontWeight = FontWeight.Medium,
+                fontWeight = FontWeight.Normal,
                 color = CharlestonGreen
             )
             IconButton(
                 onClick = { onSettingsClick() },
                 modifier = Modifier
-                    .size(32.dp)
+                    .size(24.dp)
             ) {
                 Icon(
                     painter = painterResource(R.drawable.workout_settings),
@@ -164,7 +168,10 @@ fun DailyWorkout(
         ) {
             Text(
                 text = "Завершено на 50%",
-                fontSize = 16.sp
+                fontSize = 16.sp,
+                fontFamily = jostFamily,
+                fontWeight = FontWeight.Normal,
+                color = CharlestonGreen
             )
             Spacer(Modifier.height(8.dp))
             BoxWithConstraints(modifier = Modifier
@@ -177,7 +184,7 @@ fun DailyWorkout(
                     .width(maxWidth / 2)
                     .fillMaxHeight()
                     .clip(RoundedCornerShape(maxHeight / 2))
-                    .background(Color.Black)
+                    .background(CharlestonGreen)
                 )
             }
         }
@@ -192,12 +199,15 @@ fun DailyWorkout(
                 .wrapContentWidth()
                 .height(32.dp)
                 .clip(RoundedCornerShape(16.dp))
-                .border(1.dp, Color.Black, RoundedCornerShape(16.dp))
+                .border(1.dp, CharlestonGreen, RoundedCornerShape(16.dp))
                 .padding(horizontal = 16.dp)
             ) {
                 Text(
                     "Осталось 20 ч. 40 мин.",
                     fontSize = 14.sp,
+                    fontFamily = jostFamily,
+                    fontWeight = FontWeight.Normal,
+                    color = CharlestonGreen,
                     modifier = Modifier.align(Alignment.Center)
                 )
             }
@@ -206,10 +216,10 @@ fun DailyWorkout(
                 modifier = Modifier
                     .clip(CircleShape)
                     .size(32.dp)
-                    .background(Color.Black),
+                    .background(CharlestonGreen),
             ) {
                 Icon(
-                    Icons.Filled.Face,
+                    painter = painterResource(R.drawable.arrow_right),
                     modifier = Modifier.size(24.dp),
                     contentDescription = "Like Button",
                     tint = Color.White
@@ -226,7 +236,7 @@ fun CalendarCard(
 ) {
     Column(modifier = modifier
         .fillMaxWidth()
-        .height(144.dp)
+        .wrapContentHeight()
         .clip(RoundedCornerShape(16.dp))
         .background(Color.LightGray)
         .padding(16.dp),
@@ -237,15 +247,34 @@ fun CalendarCard(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Column() {
-                Text(text = "Activity", fontSize = 24.sp)
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(text = "Memory", fontSize = 16.sp)
+                Text(
+                    text = "Активность",
+                    fontSize = 24.sp,
+                    fontFamily = jostFamily,
+                    fontWeight = FontWeight.Normal,
+                    color = CharlestonGreen
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = "Вы тренируетесь уже 21 день подряд.\nТак держать!",
+                    fontSize = 16.sp,
+                    fontFamily = jostFamily,
+                    fontWeight = FontWeight.Normal,
+                    color = CharlestonGreen
+                )
             }
-            IconButton(onClick = { /*TODO*/ }) {
-                Icon(Icons.Filled.Favorite,
-                    modifier = Modifier.size(32.dp),
+            IconButton(
+                onClick = { },
+                modifier = Modifier
+                    .clip(CircleShape)
+                    .size(32.dp)
+                    .background(CharlestonGreen),
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.arrow_right),
+                    modifier = Modifier.size(24.dp),
                     contentDescription = "Like Button",
-                    tint = Color.Black
+                    tint = Color.White
                 )
             }
         }
@@ -253,10 +282,75 @@ fun CalendarCard(
             .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Row {
-                Text(text = "", fontSize = 16.sp)
-                Spacer(modifier = Modifier.width(2.dp))
-                Text(text = "*", fontSize = 16.sp)
+            Column(
+                modifier = Modifier
+                    .wrapContentSize(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = "Пн",
+                    fontSize = 16.sp,
+                    fontFamily = jostFamily,
+                    fontWeight = FontWeight.Medium,
+                    color = CharlestonGreen
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Column(
+                    modifier = Modifier
+                        .width(100.dp)
+                        .background(CharlestonGreen)
+                ) {
+                    Text(
+                        text = "Пн",
+                        fontSize = 16.sp,
+                        fontFamily = jostFamily,
+                        fontWeight = FontWeight.Medium,
+                        color = White
+                    )
+                    Row(
+                        modifier
+                            .fillMaxWidth()
+                            .wrapContentHeight(),
+                    ) {
+                        Box(modifier = Modifier
+                            .size(4.dp)
+                            .clip(CircleShape)
+                            .background(White)
+                        )
+                        Box(modifier = Modifier
+                            .size(4.dp)
+                            .clip(CircleShape)
+                            .background(White)
+                        )
+                        Box(modifier = Modifier
+                            .size(4.dp)
+                            .clip(CircleShape)
+                            .background(White)
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Row(
+                        modifier
+                            .fillMaxWidth()
+                            .wrapContentHeight(),
+                    ) {
+                        Box(modifier = Modifier
+                            .size(4.dp)
+                            .clip(CircleShape)
+                            .background(White)
+                        )
+                        Box(modifier = Modifier
+                            .size(4.dp)
+                            .clip(CircleShape)
+                            .background(White)
+                        )
+                        Box(modifier = Modifier
+                            .size(4.dp)
+                            .clip(CircleShape)
+                            .background(White)
+                        )
+                    }
+                }
             }
         }
     }
